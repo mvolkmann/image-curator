@@ -2,7 +2,7 @@ import {EasyContext} from 'context-easy';
 import React, {useContext, useState} from 'react';
 import './image-collection.scss';
 
-const ImageCollection = ({collection}) => {
+export default function ImageCollection({collection}) {
   if (!collection) return null;
 
   const context = useContext(EasyContext);
@@ -100,6 +100,4 @@ const ImageCollection = ({collection}) => {
       })}
     </div>
   );
-};
-
-export default ImageCollection;
+}

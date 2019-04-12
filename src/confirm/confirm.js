@@ -1,9 +1,7 @@
-import {EasyContext, Input} from 'context-easy';
-import React, {useContext} from 'react';
+import React from 'react';
 import Modal from 'react-modal';
-import './collection-select.scss';
 
-export default function CollectionSelect() {
+export default function Confirm() {
   const context = useContext(EasyContext);
 
   function addCollection() {
