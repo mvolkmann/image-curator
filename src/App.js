@@ -24,7 +24,8 @@ const initialState = {
       images: []
     }
   },
-  selectedCollectionName: ''
+  selectedCollectionName: '',
+  uploadType: 'files'
 };
 
 const App = () => (

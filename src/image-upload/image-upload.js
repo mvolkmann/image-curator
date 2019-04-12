@@ -1,4 +1,4 @@
-import {EasyContext} from 'context-easy';
+import {EasyContext, Select} from 'context-easy';
 import React, {useContext, useState} from 'react';
 import {stringHash} from '../string-util';
 
@@ -43,17 +43,25 @@ export default function ImageUpload() {
     }
   }
 
+  const inputProps =
+    context.uploadType === 'directory'
+      ? {directory: '', webkitdirectory: ''}
+      : {};
+
   return (
     <div className="image-upload">
       <label>Upload</label>
+      <Select path="uploadType">
+        <option>files</option>
+        <option>directory</option>
+      </Select>
       <input
         accept={imageMimeTypes.join(',')}
-        directory=""
         multiple
         onChange={onChange}
         type="file"
         value={file}
-        webkitdirectory=""
+        {...inputProps}
       />
     </div>
   );
