@@ -39,10 +39,12 @@ export default function ImageUpload() {
       <label>Upload</label>
       <input
         accept="image/x-png,image/gif,image/jpeg"
+        directory=""
         multiple
         onChange={onChange}
         type="file"
         value={file}
+        webkitdirectory=""
       />
     </div>
   );
