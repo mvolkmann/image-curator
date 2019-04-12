@@ -1,83 +1,53 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-modal';
 
+let confirmResolve, confirmSetQuestion, openModal;
+
+// The Confirm component must be rendered before this is called.
+export async function confirm(question) {
+  confirmSetQuestion(question);
+  return new Promise(resolve => {
+    confirmResolve = resolve;
+    openModal();
+  });
+}
+
 export default function Confirm() {
-  const context = useContext(EasyContext);
+  const [question, setQuestion] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
-  function addCollection() {
-    const {collections, newCollectionName: name} = context;
-    if (!name) return;
+  confirmSetQuestion = setQuestion;
+  openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
-    const collection = {name, images: []};
-    context.set('collections', {...collections, [name]: collection});
-    context.set('newCollectionName', '');
-    context.set('selectedCollectionName', name);
-    context.toggle('addingCollection');
-  }
-
-  function deleteCollection() {
-    const {collections, selectedCollectionName} = context;
-    const newCollections = {};
-    for (const name of Object.keys(collections)) {
-      if (name !== selectedCollectionName) {
-        newCollections[name] = collections[name];
-      }
-    }
-    context.set('collections', newCollections);
-  }
-
-  function toggleModal() {
-    context.toggle('addingCollection');
-  }
-
-  function onChange(event) {
-    context.set('selectedCollectionName', event.target.value);
-  }
-
-  const {collections, newCollectionName, selectedCollectionName} = context;
+  const answers = ['Yes', 'No'];
 
   // Why is this necessary?
   Modal.setAppElement('#root');
 
+  function onClick(answer) {
+    closeModal();
+    confirmResolve(answer === 'Yes');
+  }
+
   return (
-    <div className="collection-select">
-      <Modal
-        isOpen={context.addingCollection}
-        onRequestClose={toggleModal}
-        contentLabel="Add Collection"
-      >
+    <div className="confirm">
+      <Modal isOpen={isOpen} onRequestClose={closeModal}>
         <header>
-          <div>Add Collection</div>
-          <div aria-label="close modal" onClick={toggleModal} role="img">
+          <div>Confirm</div>
+          <div aria-label="close modal" onClick={closeModal} role="img">
             &#x2716;
           </div>
         </header>
         <div className="body">
-          <div>
-            <label>Collection Name</label>
-            <Input autoFocus onEnter={addCollection} path="newCollectionName" />
-          </div>
-          <button disabled={!newCollectionName} onClick={addCollection}>
-            Add
-          </button>
+          <div>{question}</div>
+          {answers.map(answer => (
+            <button key={answer} onClick={() => onClick(answer)}>
+              {answer}
+            </button>
+          ))}
         </div>
       </Modal>
-      <label>Collection</label>
-      <select onChange={onChange} value={selectedCollectionName}>
-        {Object.keys(collections).map(name => (
-          <option key={name}>{name}</option>
-        ))}
-      </select>
-      <button className="add" onClick={toggleModal}>
-        <span aria-label="add collection" role="img">
-          &#x2795;
-        </span>
-      </button>
-      <button className="delete" onClick={deleteCollection}>
-        <span aria-label="delete collection" role="img">
-          &#x2716;
-        </span>
-      </button>
     </div>
   );
 }

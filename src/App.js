@@ -1,5 +1,6 @@
 import {EasyProvider} from 'context-easy';
 import React from 'react';
+import ConfirmDialog from './confirm/confirm';
 import ImageCurator from './image-curator/image-curator';
 import './App.scss';
 
@@ -32,6 +33,7 @@ const initialState = {
 
 const App = () => (
   <EasyProvider initialState={initialState} log validate>
+    <ConfirmDialog />
     <ImageCurator />
   </EasyProvider>
 );

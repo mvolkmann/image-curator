@@ -7,19 +7,17 @@
     margin-left: 10px;
   }
 
-  .disabled {
-    // Apparently this is what you have to do to color an emoji,
-    // but it may not work in every browser.
-    color: transparent;  
-    text-shadow: 0 0 0 lightgray;
-  }
-
   img {
     display: inline-block;
     height: 300px;
     margin-right: $padding;
     margin-top: $padding;
     vertical-align: top;
+  }
+
+  .move-row {
+    display: flex;
+    align-items: center;
   }
 
   .move-to {

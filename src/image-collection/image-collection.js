@@ -14,24 +14,12 @@ export default function ImageCollection({collection}) {
     setMoveTo(event.target.value);
   }
 
-  //TODO: Implement this!
-  function confirm(msg) {
-    console.log(msg);
-    return true;
-  }
-
   async function deleteSelected() {
-    const {images, name} = collection;
-    let msg = `Are you sure you want to delete the ${name} collection?`;
-    if (images.length)
-      msg += ` It contains ${images.length} images that will be deleted.`;
-    const confirmed = await confirm(msg);
-    if (confirmed) {
-      const newImages = images.filter(image => !selectedHashes[image.hash]);
-      const path = `collections.${collection.name}.images`;
-      context.set(path, newImages);
-      setSelectedHashes({});
-    }
+    const {images} = collection;
+    const newImages = images.filter(image => !selectedHashes[image.hash]);
+    const path = `collections.${collection.name}.images`;
+    context.set(path, newImages);
+    setSelectedHashes({});
   }
 
   function move() {
@@ -71,7 +59,7 @@ export default function ImageCollection({collection}) {
   return (
     <div className="image-collection">
       <label>Images for {collection.name}</label>
-      <div>
+      <div className="move-row">
         <label className="move-to">Move To</label>
         <select onChange={changeMoveTo} value={moveTo}>
           {Object.keys(context.collections).map(name => (

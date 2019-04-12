@@ -1,4 +1,5 @@
 import {EasyContext, Input} from 'context-easy';
+import {confirm} from '../confirm/confirm';
 import React, {useContext} from 'react';
 import Modal from 'react-modal';
 import './collection-select.scss';
@@ -17,8 +18,22 @@ export default function CollectionSelect() {
     context.toggle('addingCollection');
   }
 
-  function deleteCollection() {
+  async function deleteCollection() {
     const {collections, selectedCollectionName} = context;
+    const collectionToDelete = collections[selectedCollectionName];
+    const {images, name} = collectionToDelete;
+
+    let msg = `Are you sure you want to delete the ${name} collection?`;
+    if (images.length) {
+      msg += ` It contains ${images.length} images that will be deleted.`;
+    }
+    const confirmed = await confirm(msg);
+    console.log(
+      'collection-select.js deleteCollection: confirmed =',
+      confirmed
+    );
+    if (!confirmed) return;
+
     const newCollections = {};
     for (const name of Object.keys(collections)) {
       if (name !== selectedCollectionName) {
@@ -43,11 +58,7 @@ export default function CollectionSelect() {
 
   return (
     <div className="collection-select">
-      <Modal
-        isOpen={context.addingCollection}
-        onRequestClose={toggleModal}
-        contentLabel="Add Collection"
-      >
+      <Modal isOpen={context.addingCollection} onRequestClose={toggleModal}>
         <header>
           <div>Add Collection</div>
           <div aria-label="close modal" onClick={toggleModal} role="img">
@@ -66,16 +77,22 @@ export default function CollectionSelect() {
       </Modal>
       <label>Collection</label>
       <select onChange={onChange} value={selectedCollectionName}>
-        {Object.keys(collections).map(name => (
-          <option key={name}>{name}</option>
-        ))}
+        {Object.keys(collections)
+          .sort()
+          .map(name => (
+            <option key={name}>{name}</option>
+          ))}
       </select>
       <button className="add" onClick={toggleModal}>
         <span aria-label="add collection" role="img">
           &#x2795;
         </span>
       </button>
-      <button className="delete" onClick={deleteCollection}>
+      <button
+        className="delete"
+        disabled={!selectedCollectionName}
+        onClick={deleteCollection}
+      >
         <span aria-label="delete collection" role="img">
           &#x2716;
         </span>
