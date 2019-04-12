@@ -38,6 +38,7 @@ function CollectionSelect() {
 
   const {collections, newCollectionName, selectedCollectionName} = context;
 
+  // Why is this necessary?
   Modal.setAppElement('#root');
 
   return (
@@ -53,7 +54,7 @@ function CollectionSelect() {
             &#x2716;
           </div>
         </header>
-        <div class="body">
+        <div className="body">
           <div>
             <label>Collection Name</label>
             <Input autoFocus onEnter={addCollection} path="newCollectionName" />
