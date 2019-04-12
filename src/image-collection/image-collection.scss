@@ -1,6 +1,32 @@
 .image-collection {
+  $padding: 20px;
+
+  margin-top: $padding;
+
+  .disabled {
+    // Apparently this is what you have to do to color an emoji,
+    // but it may not work in every browser.
+    color: transparent;  
+    text-shadow: 0 0 0 red;
+  }
+
   img {
     display: inline-block;
     height: 300;
+    margin-right: $padding;
+    margin-top: $padding;
+    vertical-align: top;
+  }
+
+  label {
+    display: block;
+  }
+
+  .selected {
+    outline: solid red 3px;
+  }
+
+  .trashcan {
+    margin-left: $padding;
   }
 }

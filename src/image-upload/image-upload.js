@@ -1,5 +1,6 @@
 import {EasyContext} from 'context-easy';
 import React, {useContext, useState} from 'react';
+import {stringHash} from '../string-util';
 
 import './image-upload.scss';
 
@@ -18,7 +19,9 @@ export default function ImageUpload() {
       () => {
         const {selectedCollectionName} = context;
         const path = `collections.${selectedCollectionName}.images`;
-        context.push(path, reader.result);
+        const url = reader.result;
+        const hash = stringHash(url);
+        context.push(path, {hash, url});
       },
       false
     );
@@ -28,6 +31,7 @@ export default function ImageUpload() {
 
   return (
     <div className="image-upload">
+      <label>Upload</label>
       <input
         accept="image/x-png,image/gif,image/jpeg"
         onChange={onChange}

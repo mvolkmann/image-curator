@@ -11,11 +11,14 @@ function CollectionSelect() {
   const {collections, selectedCollectionName} = context;
 
   return (
-    <select onChange={onChange} value={selectedCollectionName}>
-      {Object.keys(collections).map(name => (
-        <option key={name}>{name}</option>
-      ))}
-    </select>
+    <div className="collection-select">
+      <label>Collection</label>
+      <select onChange={onChange} value={selectedCollectionName}>
+        {Object.keys(collections).map(name => (
+          <option key={name}>{name}</option>
+        ))}
+      </select>
+    </div>
   );
 }
 

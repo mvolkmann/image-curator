@@ -11,15 +11,15 @@ const unnamedCollection = {
 const initialState = {
   collections: {
     '': unnamedCollection,
-    corn: {
+    Corn: {
       name: 'Corn',
       images: []
     },
-    rice: {
+    Rice: {
       name: 'Rice',
       images: []
     },
-    tomato: {
+    Tomato: {
       name: 'Tomato',
       images: []
     }
