@@ -9,6 +9,7 @@ const unnamedCollection = {
 };
 
 const initialState = {
+  addingCollection: false,
   collections: {
     '': unnamedCollection,
     Corn: {
@@ -24,6 +25,7 @@ const initialState = {
       images: []
     }
   },
+  newCollectionName: '',
   selectedCollectionName: '',
   uploadType: 'files'
 };

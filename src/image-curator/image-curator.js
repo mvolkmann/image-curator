@@ -11,7 +11,7 @@ export default function ImageCurator() {
   const collection = collections[selectedCollectionName];
   return (
     <div className="image-curator">
-      <header className="App-header">Image Curator</header>
+      <header>Image Curator</header>
       <div className="body">
         <CollectionSelect />
         <ImageUpload />

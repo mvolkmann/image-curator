@@ -1,0 +1,19 @@
+.collection-select {
+  display: flex;
+  align-items: center;
+
+  .add {
+    color: green;
+  }
+
+  button {
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+
+  .delete {
+    color: red;
+  }
+}
