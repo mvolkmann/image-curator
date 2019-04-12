@@ -4,6 +4,12 @@ import {stringHash} from '../string-util';
 
 import './image-upload.scss';
 
+const imageMimeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/x-png'];
+
+function isImage(file) {
+  return imageMimeTypes.includes(file.type);
+}
+
 export default function ImageUpload() {
   const context = useContext(EasyContext);
   const [file, setFile] = useState('');
@@ -14,6 +20,9 @@ export default function ImageUpload() {
     setFile(value);
 
     for (const file of files) {
+      console.log('image-upload.js x: file.type =', file.type);
+      if (!isImage(file)) continue;
+
       const reader = new FileReader();
       reader.addEventListener(
         'load',
@@ -38,7 +47,7 @@ export default function ImageUpload() {
     <div className="image-upload">
       <label>Upload</label>
       <input
-        accept="image/x-png,image/gif,image/jpeg"
+        accept={imageMimeTypes.join(',')}
         directory=""
         multiple
         onChange={onChange}
