@@ -1,16 +1,36 @@
-import React, {Component} from 'react';
-import ImageUpload from './image-upload/image-upload';
+import {EasyProvider} from 'context-easy';
+import React from 'react';
+import ImageCurator from './image-curator/image-curator';
 import './App.scss';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">Image Curator</header>
-        <ImageUpload />
-      </div>
-    );
-  }
-}
+const unnamedCollection = {
+  name: '',
+  images: []
+};
+
+const initialState = {
+  collections: {
+    '': unnamedCollection,
+    corn: {
+      name: 'Corn',
+      images: []
+    },
+    rice: {
+      name: 'Rice',
+      images: []
+    },
+    tomato: {
+      name: 'Tomato',
+      images: []
+    }
+  },
+  selectedCollectionName: ''
+};
+
+const App = () => (
+  <EasyProvider initialState={initialState} log validate>
+    <ImageCurator />
+  </EasyProvider>
+);
 
 export default App;

@@ -1,28 +1,29 @@
-import React, {useState} from 'react';
+import {EasyContext} from 'context-easy';
+import React, {useContext, useState} from 'react';
+
+import './image-upload.scss';
 
 export default function ImageUpload() {
+  const context = useContext(EasyContext);
   const [file, setFile] = useState('');
-
-  const imgRef = React.createRef();
 
   function onChange(event) {
     const input = event.target;
-    setFile(input.value);
-
-    const file = input.files[0];
-    console.log('image-upload.js onChange: file =', file);
+    const {files, value} = input;
+    setFile(value);
 
     const reader = new FileReader();
-    reader.addEventListener('load', () => setPreview(reader), false);
-    reader.readAsDataURL(file);
-  }
+    reader.addEventListener(
+      'load',
+      () => {
+        const {selectedCollectionName} = context;
+        const path = `collections.${selectedCollectionName}.images`;
+        context.push(path, reader.result);
+      },
+      false
+    );
 
-  function setPreview(reader) {
-    console.log('image-upload.js setPreview: imgRef =', imgRef);
-    console.log('image-upload.js setPreview: reader =', reader);
-    const {current} = imgRef;
-    //TODO: Why is current never set?
-    if (current) current.src = reader.result;
+    reader.readAsDataURL(files[0]);
   }
 
   return (
@@ -33,7 +34,6 @@ export default function ImageUpload() {
         type="file"
         value={file}
       />
-      <img alt="preview" ref={imgRef} />
     </div>
   );
 }
