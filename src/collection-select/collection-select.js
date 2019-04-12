@@ -8,13 +8,22 @@ function CollectionSelect() {
 
   function addCollection() {
     const {collections, newCollectionName: name} = context;
+    console.log('collection-select.js addCollection: name =', name);
     const collection = {name, images: []};
-    context.set('collections', {...collections, name: collection});
+    context.set('collections', {...collections, [name]: collection});
+    context.set('newCollectionName', '');
     context.toggle('addingCollection');
   }
 
   function deleteCollection() {
-    console.log('collection-select.js deleteCollection: entered');
+    const {collections, selectedCollectionName} = context;
+    const newCollections = {};
+    for (const name of Object.keys(collections)) {
+      if (name !== selectedCollectionName) {
+        newCollections[name] = collections[name];
+      }
+    }
+    context.set('collections', newCollections);
   }
 
   function toggleModal() {
@@ -27,19 +36,29 @@ function CollectionSelect() {
 
   const {collections, selectedCollectionName} = context;
 
-  //Modal.setAppElement('.image-curator');
+  Modal.setAppElement('#root');
 
   return (
     <div className="collection-select">
-      {/* <Modal
+      <Modal
         isOpen={context.addingCollection}
         onRequestClose={toggleModal}
         contentLabel="Add Collection"
       >
-        <div>Add Collection</div>
-        <Input path="newCollectionName" />
-        <button onClick={addCollection}>Add</button>
-      </Modal> */}
+        <header>
+          <div>Add Collection</div>
+          <div aria-label="close modal" onClick={toggleModal} role="img">
+            &#x2716;
+          </div>
+        </header>
+        <div class="body">
+          <div>
+            <label>Collection Name</label>
+            <Input path="newCollectionName" />
+          </div>
+          <button onClick={addCollection}>Add</button>
+        </div>
+      </Modal>
       <label>Collection</label>
       <select onChange={onChange} value={selectedCollectionName}>
         {Object.keys(collections).map(name => (
