@@ -11,7 +11,7 @@
     // Apparently this is what you have to do to color an emoji,
     // but it may not work in every browser.
     color: transparent;  
-    text-shadow: 0 0 0 red;
+    text-shadow: 0 0 0 lightgray;
   }
 
   img {
@@ -31,6 +31,6 @@
   }
 
   .trashcan {
-    margin-right: $padding;
+    margin-left: $padding;
   }
 }

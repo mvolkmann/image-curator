@@ -1,5 +1,5 @@
 import {EasyContext, Select} from 'context-easy';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {stringHash} from '../string-util';
 
 import './image-upload.scss';
@@ -13,6 +13,8 @@ function isImage(file) {
 export default function ImageUpload() {
   const context = useContext(EasyContext);
   const [file, setFile] = useState('');
+
+  const fileInputRef = useRef();
 
   function onChange(event) {
     const input = event.target;
@@ -59,10 +61,13 @@ export default function ImageUpload() {
         accept={imageMimeTypes.join(',')}
         multiple
         onChange={onChange}
+        ref={fileInputRef}
+        style={{display: 'none'}}
         type="file"
         value={file}
         {...inputProps}
       />
+      <button onClick={() => fileInputRef.current.click()}>Browse...</button>
     </div>
   );
 }

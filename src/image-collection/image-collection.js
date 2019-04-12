@@ -60,9 +60,6 @@ const ImageCollection = ({collection}) => {
     <div className="image-collection">
       <label>Images for {collection.name}</label>
       <div>
-        <span className={`trashcan ${cn}`} onClick={deleteSelected}>
-          &#x1f5d1;
-        </span>
         <label className="move-to">Move To</label>
         <select onChange={changeMoveTo} value={moveTo}>
           {Object.keys(context.collections).map(name => (
@@ -72,6 +69,9 @@ const ImageCollection = ({collection}) => {
         <button disabled={!anySelected} onClick={move}>
           Move
         </button>
+        <span className={`trashcan ${cn}`} onClick={deleteSelected}>
+          &#x1f5d1;
+        </span>
       </div>
       {collection.images.map(image => {
         const selected = selectedHashes[image.hash];

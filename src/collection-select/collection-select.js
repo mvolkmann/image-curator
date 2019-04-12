@@ -8,10 +8,12 @@ function CollectionSelect() {
 
   function addCollection() {
     const {collections, newCollectionName: name} = context;
-    console.log('collection-select.js addCollection: name =', name);
+    if (!name) return;
+
     const collection = {name, images: []};
     context.set('collections', {...collections, [name]: collection});
     context.set('newCollectionName', '');
+    context.set('selectedCollectionName', name);
     context.toggle('addingCollection');
   }
 
@@ -34,7 +36,7 @@ function CollectionSelect() {
     context.set('selectedCollectionName', event.target.value);
   }
 
-  const {collections, selectedCollectionName} = context;
+  const {collections, newCollectionName, selectedCollectionName} = context;
 
   Modal.setAppElement('#root');
 
@@ -54,9 +56,11 @@ function CollectionSelect() {
         <div class="body">
           <div>
             <label>Collection Name</label>
-            <Input path="newCollectionName" />
+            <Input autoFocus onEnter={addCollection} path="newCollectionName" />
           </div>
-          <button onClick={addCollection}>Add</button>
+          <button disabled={!newCollectionName} onClick={addCollection}>
+            Add
+          </button>
         </div>
       </Modal>
       <label>Collection</label>

@@ -4,13 +4,10 @@ body {
 }
 
 button {
-  border: solid lightgray 1px;
-  border-radius: 4px;
   font-weight: bold;
-  padding: 4px;
 }
 
-input {
+button, input[type=text], select {
   border: solid lightgray 1px;
   border-radius: 4px;
   padding: 4px;

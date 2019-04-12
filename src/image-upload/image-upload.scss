@@ -1,3 +1,9 @@
 .image-upload {
+  display: flex;
+  align-items: center;
   margin-top: 20px;
+
+  select {
+    margin-right: 10px;
+  }
 }
