@@ -3,6 +3,10 @@
 
   margin-top: $padding;
 
+  button {
+    margin-left: 10px;
+  }
+
   .disabled {
     // Apparently this is what you have to do to color an emoji,
     // but it may not work in every browser.
@@ -18,8 +22,8 @@
     vertical-align: top;
   }
 
-  label {
-    display: block;
+  .move-to {
+    font-weight: normal;  
   }
 
   .selected {
@@ -27,6 +31,6 @@
   }
 
   .trashcan {
-    margin-left: $padding;
+    margin-right: $padding;
   }
 }

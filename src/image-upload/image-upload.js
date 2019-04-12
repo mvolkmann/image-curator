@@ -13,20 +13,25 @@ export default function ImageUpload() {
     const {files, value} = input;
     setFile(value);
 
-    const reader = new FileReader();
-    reader.addEventListener(
-      'load',
-      () => {
-        const {selectedCollectionName} = context;
-        const path = `collections.${selectedCollectionName}.images`;
-        const url = reader.result;
-        const hash = stringHash(url);
-        context.push(path, {hash, url});
-      },
-      false
-    );
-
-    reader.readAsDataURL(files[0]);
+    for (const file of files) {
+      const reader = new FileReader();
+      reader.addEventListener(
+        'load',
+        () => {
+          const {selectedCollectionName} = context;
+          const path = `collections.${selectedCollectionName}.images`;
+          const existingImages = context.get(path) || [];
+          const url = reader.result;
+          const hash = stringHash(url);
+          const existingImage = existingImages.find(
+            image => image.hash === hash
+          );
+          if (!existingImage) context.push(path, {hash, url});
+        },
+        false
+      );
+      reader.readAsDataURL(file);
+    }
   }
 
   return (
@@ -34,6 +39,7 @@ export default function ImageUpload() {
       <label>Upload</label>
       <input
         accept="image/x-png,image/gif,image/jpeg"
+        multiple
         onChange={onChange}
         type="file"
         value={file}
