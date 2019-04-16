@@ -4,30 +4,14 @@ import ConfirmDialog from './confirm/confirm';
 import ImageCurator from './image-curator/image-curator';
 import './App.scss';
 
-const unnamedCollection = {
-  name: '',
-  images: []
-};
-
 const initialState = {
   addingCollection: false,
-  collections: {
-    '': unnamedCollection,
-    Corn: {
-      name: 'Corn',
-      images: []
-    },
-    Rice: {
-      name: 'Rice',
-      images: []
-    },
-    Tomato: {
-      name: 'Tomato',
-      images: []
-    }
-  },
+  addingDataset: false,
+  datasets: {},
   newCollectionName: '',
+  newDatasetName: '',
   selectedCollectionName: '',
+  selectedDatasetName: '',
   uploadType: 'files'
 };
 

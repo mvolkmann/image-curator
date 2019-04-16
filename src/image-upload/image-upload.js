@@ -13,8 +13,9 @@ function isImage(file) {
 export default function ImageUpload() {
   const context = useContext(EasyContext);
   const [file, setFile] = useState('');
-
   const fileInputRef = useRef();
+
+  if (!context.selectedDatasetName) return null;
 
   function onChange(event) {
     const input = event.target;
@@ -29,8 +30,8 @@ export default function ImageUpload() {
       reader.addEventListener(
         'load',
         () => {
-          const {selectedCollectionName} = context;
-          const path = `collections.${selectedCollectionName}.images`;
+          const {selectedDatasetName, selectedCollectionName} = context;
+          const path = `datasets.${selectedDatasetName}.collections.${selectedCollectionName}.images`;
           const existingImages = context.get(path) || [];
           const url = reader.result;
           const hash = stringHash(url);

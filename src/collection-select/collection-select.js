@@ -8,18 +8,23 @@ export default function CollectionSelect() {
   const context = useContext(EasyContext);
 
   function addCollection() {
-    const {collections, newCollectionName: name} = context;
+    const {datasets, newCollectionName: name, selectedDatasetName} = context;
     if (!name) return;
 
+    const {collections} = datasets[selectedDatasetName];
     const collection = {name, images: []};
-    context.set('collections', {...collections, [name]: collection});
+    context.set(`datasets.${selectedDatasetName}.collections`, {
+      ...collections,
+      [name]: collection
+    });
     context.set('newCollectionName', '');
     context.set('selectedCollectionName', name);
     context.toggle('addingCollection');
   }
 
   async function deleteCollection() {
-    const {collections, selectedCollectionName} = context;
+    const {datasets, selectedCollectionName, selectedDatasetName} = context;
+    const {collections} = datasets[selectedDatasetName];
     const collectionToDelete = collections[selectedCollectionName];
     const {images, name} = collectionToDelete;
 
@@ -40,7 +45,7 @@ export default function CollectionSelect() {
         newCollections[name] = collections[name];
       }
     }
-    context.set('collections', newCollections);
+    context.set(`datasets.${selectedDatasetName}.collections`, newCollections);
   }
 
   function toggleModal() {
@@ -51,7 +56,20 @@ export default function CollectionSelect() {
     context.set('selectedCollectionName', event.target.value);
   }
 
-  const {collections, newCollectionName, selectedCollectionName} = context;
+  const {
+    datasets,
+    newCollectionName,
+    selectedCollectionName,
+    selectedDatasetName
+  } = context;
+  console.log(
+    'collection-select.js x: selectedDatasetName =',
+    selectedDatasetName
+  );
+  const dataset = datasets[selectedDatasetName];
+  if (!dataset) return null;
+
+  const {collections} = dataset;
 
   // Why is this necessary?
   Modal.setAppElement('#root');

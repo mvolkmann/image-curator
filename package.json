@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
+    "format": "prettier --write src/**.{js,scss}",
+    "lint": "eslint --cache src/**/*.js",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
@@ -18,12 +20,17 @@
   },
   "dependencies": {
     "context-easy": "^0.10.5",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-modal": "^3.8.1",
     "react-scripts": "2.1.8"
   },
   "devDependencies": {
-    "node-sass": "^4.11.0"
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-prettier": "^3.0.1",
+    "node-sass": "^4.11.0",
+    "prettier": "^1.17.0"
   }
 }

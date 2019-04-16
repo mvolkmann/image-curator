@@ -1,9 +1,12 @@
 import {EasyContext} from 'context-easy';
+import {arrayOf, objectOf, shape, string} from 'prop-types';
 import React, {useContext, useState} from 'react';
 import './image-collection.scss';
 
-export default function ImageCollection({collection}) {
-  if (!collection) return null;
+function ImageCollection({dataset, collection}) {
+  if (!dataset || !collection) return null;
+  console.log('image-collection.js x: dataset =', dataset);
+  console.log('image-collection.js x: collection =', collection);
 
   const context = useContext(EasyContext);
 
@@ -17,14 +20,18 @@ export default function ImageCollection({collection}) {
   async function deleteSelected() {
     const {images} = collection;
     const newImages = images.filter(image => !selectedHashes[image.hash]);
-    const path = `collections.${collection.name}.images`;
+    const path = `datasets.${dataset.name}.collections.${
+      collection.name
+    }.images`;
     context.set(path, newImages);
     setSelectedHashes({});
   }
 
   function move() {
     const srcImages = collection.images;
-    const destImages = context.collections[moveTo].images;
+    const {datasets, selectedDatasetName} = context;
+    const dataset = datasets[selectedDatasetName];
+    const destImages = dataset.collections[moveTo].images;
     let newSrcImages = [...srcImages];
     const newDestImages = [...destImages];
     for (const hash of Object.keys(selectedHashes)) {
@@ -34,8 +41,13 @@ export default function ImageCollection({collection}) {
       );
       newDestImages.push(imageToMove);
     }
-    context.set(`collections.${collection.name}.images`, newSrcImages);
-    context.set(`collections.${moveTo}.images`, newDestImages);
+
+    let path = `datasets.${dataset.name}.collections.${collection.name}.images`;
+    context.set(path, newSrcImages);
+
+    path = `datasets.${dataset.name}.collections.${moveTo}.images`;
+    context.set(path, newDestImages);
+
     setSelectedHashes({});
   }
 
@@ -62,7 +74,7 @@ export default function ImageCollection({collection}) {
       <div className="move-row">
         <label className="move-to">Move To</label>
         <select onChange={changeMoveTo} value={moveTo}>
-          {Object.keys(context.collections).map(name => (
+          {Object.keys(dataset.collections).map(name => (
             <option key={name}>{name}</option>
           ))}
         </select>
@@ -89,3 +101,17 @@ export default function ImageCollection({collection}) {
     </div>
   );
 }
+
+const collectionType = shape({
+  name: string,
+  images: arrayOf(string)
+});
+ImageCollection.propTypes = {
+  collection: collectionType,
+  dataset: shape({
+    name: string,
+    collections: objectOf(collectionType)
+  })
+};
+
+export default ImageCollection;
